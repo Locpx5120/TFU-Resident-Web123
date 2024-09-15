@@ -1,0 +1,1 @@
+//Hàm tính toán các giá cả của phòng
