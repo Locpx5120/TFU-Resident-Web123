@@ -1,0 +1,18 @@
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dashboard-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+}
+
+.dashboard-card span {
+    font-size: 24px;
+    font-weight: bold;
+}
