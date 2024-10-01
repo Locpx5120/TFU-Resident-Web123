@@ -7,17 +7,19 @@ import Swal from "sweetalert2";
 
 const Login = () => {
     const [credentials, setCredentials] = useState({
-        email: undefined,
-        password: undefined
-    })
+        email: '',
+        password: ''
+    });
 
-    const { dispatch } = useContext(authService)
-    const navigate = useNavigate()
+    const { dispatch } = useContext(authService);
+    const navigate = useNavigate();
 
+    // Hàm thay đổi giá trị input
     const handleChange = e => {
-        setCredentials(prev => ({ ...prev, [e.target.id]: e.target.value }))
-    }
+        setCredentials(prev => ({ ...prev, [e.target.id]: e.target.value }));
+    };
 
+    // Hàm xử lý đăng nhập
     const handleClick = async e => {
         e.preventDefault()
         Swal.fire({
@@ -51,34 +53,35 @@ const Login = () => {
         }
     }
 
+
     return (
-        <section>
-            <Container>
-                <Row>
-                    <Col lg='8' className='m-auto'>
-                        <div className="login__container d-flex justify-content-between">
+        <section className="login-section">
+         <Container>
+            <Row>
+               <Col lg='8' className='m-auto'>
+                  <div className="login-container d-flex justify-content-between">
 
-                            <div className="login__form">
-                                <h2>Login</h2>
+                     <div className="login-form">
+                        <h2>Đăng nhập</h2>
 
-                                <Form onSubmit={handleClick}>
-                                    <FormGroup>
-                                        <input type="email" placeholder='Email' id='email' onChange={handleChange} required />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <input type="password" placeholder='Password' id='password' onChange={handleChange} required />
-                                    </FormGroup>
-                                    <Button className='btn secondary__btn auth__btn' type='submit'>Login</Button>
-                                </Form>
-                                <p>Forgot password?<Link to='/reset-password'>Reset password</Link></p>
-                                <p>Don't have an account? <Link to='/register'>Create</Link></p>
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            </Container>
-        </section>
-    )
-}
+                        <Form onSubmit={handleClick}>
+                           <FormGroup>
+                              <input type="email" placeholder='Email' id='email' onChange={handleChange} required />
+                           </FormGroup>
+                           <FormGroup>
+                              <input type="password" placeholder='Mật khẩu' id='password' onChange={handleChange} required />
+                           </FormGroup>
+                           <Button className='btn primary-btn' type='submit'>Đăng nhập</Button>
+                        </Form>
+                        <p><Link to='/reset-password'>Quên mật khẩu?</Link></p>
+                        <p>Bạn chưa có tài khoản? <Link to='/register'>Đăng ký</Link></p>
+                     </div>
+                  </div>
+               </Col>
+            </Row>
+         </Container>
+      </section>
+    );
+};
 
-export default Login
+export default Login;
