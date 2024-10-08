@@ -45,7 +45,7 @@ const Register = () => {
       }
 
       try {
-         const res = await fetch('http://localhost:8000/api/v1/auth/register', {
+         const res = await fetch('http://localhost:5045/api/auth/register', {
             method: 'POST',
             body: formData,
          });

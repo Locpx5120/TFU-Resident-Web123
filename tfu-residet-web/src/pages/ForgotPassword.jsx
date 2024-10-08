@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import '../styles/register.css';
+import '../styles/ForgotPass.css';
 
 const ForgotPassword = () => {
     const [formData, setFormData] = useState({
@@ -18,7 +17,7 @@ const ForgotPassword = () => {
        e.preventDefault();
  
        try {
-          const response = await fetch('http://localhost:8000/api/v1/auth/reset-password', {
+          const response = await fetch('http://localhost:5045/api/auth/forgot', {
              method: 'POST',
              headers: {
                 'Content-Type': 'application/json'
@@ -43,10 +42,10 @@ const ForgotPassword = () => {
           <Container>
              <Row>
                 <Col lg='8' className='m-auto'>
-                   <div className="register_container d-flex justify-content-between">
-                      <div className="register_form">
-                         <h2>Reset Password</h2>
-                         <p>Please enter your email and new password to reset your password.</p>
+                   <div className="forgotpass_container d-flex justify-content-between">
+                      <div className="forgotpass_form">
+                         <h2>Đặt lại mật khẩu</h2>
+                         <p>Vui lòng nhập email của bạn để tiến hành thay đổi mật khẩu</p>
                          {message && <p className="text-danger">{message}</p>}
                          <Form onSubmit={handleSubmit}>
                             <FormGroup>
@@ -59,19 +58,8 @@ const ForgotPassword = () => {
                                   required
                                />
                             </FormGroup>
-                            <FormGroup>
-                               <input
-                                  type="password"
-                                  name="newPassword"
-                                  placeholder="New Password"
-                                  value={formData.newPassword}
-                                  onChange={handleChange}
-                                  required
-                               />
-                            </FormGroup>
-                            <Button className='btn secondary__btn auth__btn' type='submit'>Reset Password</Button>
+                            <Button className='btn secondary__btn auth__btn' type='submit'>Gửi yêu cầu</Button>
                          </Form>
-                         <p>Remember your password? <Link to='/login'>Login</Link></p>
                       </div>
                    </div>
                 </Col>
