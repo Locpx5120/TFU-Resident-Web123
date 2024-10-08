@@ -33,7 +33,7 @@ const Login = () => {
         dispatch({ type: 'LOGIN_START' })
 
         try {
-            const res = await fetch('http://localhost:8000/api/v1/auth/login', {
+            const res = await fetch('http://localhost:5045/api/auth/token', {
                 method: 'post',
                 headers: {
                     'content-type': 'application/json'
@@ -73,7 +73,7 @@ const Login = () => {
                            </FormGroup>
                            <Button className='btn primary-btn' type='submit'>Đăng nhập</Button>
                         </Form>
-                        <p><Link to='/reset-password'>Quên mật khẩu?</Link></p>
+                        <p><Link to='/forgot-password'>Quên mật khẩu?</Link></p>
                         <p>Bạn chưa có tài khoản? <Link to='/register'>Đăng ký</Link></p>
                      </div>
                   </div>
