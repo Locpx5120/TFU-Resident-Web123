@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "../styles/Sidebar.css";
 import { routeArray } from "../constants/routes";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import BadgeAvatars from "./Avatar";
 import { Box } from "@mui/material";
@@ -13,11 +13,12 @@ const StyledUl = styled.ul`
 `;
 
 const StyledLi = styled.li`
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   transition: all 0.3s ease;
 
   a {
-    display: block;
+    display: flex;
+    align-items: center;
     padding: 10px 15px;
     text-decoration: none;
     color: #333;
@@ -28,7 +29,7 @@ const StyledLi = styled.li`
 
   &:hover a {
     background-color: #e6ffe6;
-    padding-left: 25px;
+    transform: translateX(5px);
   }
 
   &.active a {
@@ -36,17 +37,21 @@ const StyledLi = styled.li`
     color: #2e8b57;
     font-weight: bold;
   }
+
+  span {
+    margin-right: 10px;
+  }
 `;
 
 const Sidebar = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
-  const handleClick = (index) => {
-    setActiveIndex(index);
-  };
+  const location = useLocation();
+
   return (
     <div className="sidebar">
       <div className="profile">
-        <Box className="profile-img"><BadgeAvatars src="https://avatar-ex-swe.nixcdn.com/song/2020/08/06/6/0/8/0/1596682420038.jpg" /></Box>
+        <Box className="profile-img">
+          <BadgeAvatars src="https://avatar-ex-swe.nixcdn.com/song/2020/08/06/6/0/8/0/1596682420038.jpg" />
+        </Box>
         <h3>JSX Computer</h3>
         <p>Royal City</p>
       </div>
@@ -55,10 +60,12 @@ const Sidebar = () => {
           {routeArray.map((item, i) => (
             <StyledLi
               key={i}
-              className={activeIndex === i ? "active" : ""}
-              onClick={() => handleClick(i)}
+              className={location.pathname === item.route ? "active" : ""}
             >
-              <Link to={item.route}>{item.routeName}</Link>
+              <Link to={item.route}>
+                <span>{item.icon}</span>
+                {item.routeName}
+              </Link>
             </StyledLi>
           ))}
         </StyledUl>
