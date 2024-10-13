@@ -12,7 +12,7 @@ const Login = () => {
         password: ''
     });
 
-    const {  } = useContext(authService);
+    const { dispatch } = useContext(authService);
     const navigate = useNavigate();
 
     // Hàm thay đổi giá trị input
@@ -26,12 +26,23 @@ const Login = () => {
         dispatch({ type: 'LOGIN_START' });
     
         try {
-            const response = await axiosInstance.post('/auth/token', credentials);
-            
-            if (response.data && response.data.accessToken) {
-                Cookies.set('accessToken', response.data.token, { expires: 1 });
+                const res = await fetch('http://localhost:5045/api/auth/token', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    // credentials: 'include',
+                    body: JSON.stringify(credentials)
+                })
     
-                dispatch({ type: "LOGIN_SUCCESS", payload: response.data.user });
+                const result = await res.json();
+                if (!res.ok) alert(result.message)
+                console.log(result.data)
+    
+            if (result.data && result.data.token) {
+                Cookies.set('accessToken', result.data.token, { expires: 1 });
+    
+                dispatch({ type: "LOGIN_SUCCESS", payload: result.data.user });
                 
                 Swal.fire({
                     icon: 'success',
