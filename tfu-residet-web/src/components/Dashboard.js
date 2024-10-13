@@ -5,10 +5,8 @@ import DashboardCard from './DashboardCard';
 
 const Dashboard = () => {
   return (
-    <div className="main-content">
-      <Header />
-      <section className="dashboard">
-        <h1>Quản lý nhanh</h1>
+      <section className="content dashboard">
+        <h1 className="dashboard_title">Quản lý nhanh</h1>
         <div className="dashboard-cards">
           <DashboardCard number="0" title="Cư dân" link="Danh sách cư dân" />
           <DashboardCard number="0" title="Căn hộ" link="Danh sách căn hộ" />
@@ -16,7 +14,6 @@ const Dashboard = () => {
           <DashboardCard number="3" title="Dự án" link="Danh sách dự án" />
         </div>
       </section>
-    </div>
   );
 };
 

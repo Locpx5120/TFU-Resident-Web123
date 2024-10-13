@@ -34,10 +34,10 @@
 /* Định dạng cho nội dung chính */
 .content {
   margin-left: 250px; /* Đẩy nội dung sang phải bằng độ rộng của Sidebar */
-  padding: 20px;
-  width: calc(100% - 250px); /* Lấy phần còn lại sau Sidebar */
+  padding: 20px 40px;
+  width: calc(100% - 290px); /* Lấy phần còn lại sau Sidebar */
   height: 100vh;
-  background-color: #fff;
+  background: #f5f6f8;
   overflow-y: auto; /* Đảm bảo nội dung có thể cuộn nếu dài */
 }
 

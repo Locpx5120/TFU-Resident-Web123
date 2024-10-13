@@ -64,7 +64,7 @@ const Register = () => {
    };
 
    return (
-      <section>
+      <section className="register_section">
          <Container>
             <Row>
                <Col lg="10" className="m-auto">

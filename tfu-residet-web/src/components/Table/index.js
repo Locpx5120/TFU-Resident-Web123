@@ -13,11 +13,15 @@ import {
   Button,
   Backdrop,
   CircularProgress,
+  TableSortLabel,
 } from "@mui/material";
 import JSonBox from "../JSonBox";
 import colors from "../../assets/theme/base/colors";
 import typography from "../../assets/theme/base/typography";
 import borders from "../../assets/theme/base/borders";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 
 function TableCustom({
   columns,
@@ -30,8 +34,10 @@ function TableCustom({
   onSelectAll,
   selectAllChecked,
   isLoading,
+  sortColumn,
+  sortDirection,
+  onSort,
 }) {
-
   const { light } = colors;
   const { size, fontWeightBold } = typography;
   const { borderWidth } = borders;
@@ -39,67 +45,85 @@ function TableCustom({
   const paginatedRows = useMemo(() => rows, [rows]);
 
   const renderColumns = columns.map(
-    ({ name, align, width, type, button, onButtonClick }) => (
-      <Typography
-        key={name}
-        component="th"
+    ({ name, align, width, type, button, onButtonClick, sortable, esName }) => (
+      <TableCell
+        key={esName}
+        align={align}
         width={width || "auto"}
-        textAlign={align}
-        fontSize={size.xxs}
-        fontWeight={fontWeightBold}
-        color="#000000d6"
-        opacity={0.7}
-        borderBottom={`${borderWidth[1]} solid ${light.main}`}
-        sx={{ flexShrink: 0, whiteSpace: "nowrap", padding: "12px 16px" }}
+        sx={{
+          padding: "12px 16px",
+          borderBottom: `${borderWidth[1]} solid ${light.main}`,
+        }}
       >
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
-            gap: "5px",
-            justifyContent: "flex-start",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <Box>
-            {type === "checkbox" && (
-              <Checkbox checked={selectAllChecked} onChange={onSelectAll} />
-            )}
-            <span>{name.toUpperCase()}</span>
-          </Box>
-          {button && (
-            <Button
-              variant="contained"
-              sx={{
-                marginLeft: 1,
-                color: "#ffff",
-                backgroundColor: "rgb(37, 126, 229)",
-                fontSize: "10px",
-                padding: "5px 15px",
-                minHeight: "25px",
-                width: "auto",
-                alignSelf: "flex-start",
-                boxShadow: "none",
-                marginLeft: "25px",
-                "&:hover": {
-                  backgroundColor: "rgb(37, 126, 229)",
-                  transform: "scale(1)",
-                  boxShadow: "none",
-                },
-                "&:focus:not(:hover)": {
-                  backgroundColor: "rgb(37, 126, 229)",
-                  boxShadow: "none",
-                },
-                "& .MuiSvgIcon-root": {
-                  fontSize: "10px",
-                },
-              }}
-              onClick={onButtonClick}
+          {type === "checkbox" && (
+            <Checkbox checked={selectAllChecked} onChange={onSelectAll} />
+          )}
+          {sortable ? (
+            <TableSortLabel
+              active={sortColumn === esName}
+              direction={sortColumn === esName ? sortDirection : 'asc'}
+              onClick={() => onSort(esName)}
             >
-              {button}
-            </Button>
+              <Typography
+                fontSize={size.xxs}
+                fontWeight={fontWeightBold}
+                color="#909399"
+                sx={{ textTransform: 'uppercase' }}
+              >
+                {name}
+              </Typography>
+            </TableSortLabel>
+          ) : (
+            <Typography
+              fontSize={size.xxs}
+              fontWeight={fontWeightBold}
+              color="#909399"
+              sx={{ textTransform: 'uppercase' }}
+            >
+              {name}
+            </Typography>
           )}
         </Box>
-      </Typography>
+        {button && (
+          <Button
+            variant="contained"
+            sx={{
+              marginLeft: 1,
+              color: "#ffff",
+              backgroundColor: "rgb(37, 126, 229)",
+              fontSize: "10px",
+              padding: "5px 15px",
+              minHeight: "25px",
+              width: "auto",
+              alignSelf: "flex-start",
+              boxShadow: "none",
+              marginLeft: "25px",
+              "&:hover": {
+                backgroundColor: "rgb(37, 126, 229)",
+                transform: "scale(1)",
+                boxShadow: "none",
+              },
+              "&:focus:not(:hover)": {
+                backgroundColor: "rgb(37, 126, 229)",
+                boxShadow: "none",
+              },
+              "& .MuiSvgIcon-root": {
+                fontSize: "10px",
+              },
+            }}
+            onClick={onButtonClick}
+          >
+            {button}
+          </Button>
+        )}
+      </TableCell>
     )
   );
 
@@ -120,8 +144,8 @@ function TableCustom({
               sx={{
                 display: "inline-block",
                 width: "max-content",
-                color: "red",
-                "& .css-5sc49i-MuiTypography-root": { color: "#000000d6" },
+                color: "#000",
+                "& .css-5sc49i-MuiTypography-root": { color: "#000" },
               }}
             >
               {row[esName]}
@@ -249,6 +273,9 @@ TableCustom.propTypes = {
   onSelectAll: PropTypes.func,
   selectAllChecked: PropTypes.bool,
   isLoading: PropTypes.bool,
+  sortColumn: PropTypes.string,
+  sortDirection: PropTypes.oneOf(["asc", "desc"]),
+  onSort: PropTypes.func,
 };
 
 export default TableCustom;
