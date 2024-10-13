@@ -7,13 +7,15 @@ import Swal from "sweetalert2";
 
 const Register = () => {
    const [credentials, setCredentials] = useState({
-      username: '',
-      fullname: '',
-      address: '',
+      // username: '',
+      // fullname: '',
+      // address: '',
+      companyName: '',
       phone: '',
       email: '',
-      password: '',
-      avatar: null, // Thay đổi từ string thành null để xử lý file
+      // password: '',
+      // avatar: null,
+      // Thay đổi từ string thành null để xử lý file
    });
 
    const { dispatch } = useContext(authService);

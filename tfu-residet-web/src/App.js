@@ -1,30 +1,62 @@
 import React from 'react';
-// Import các thành phần cần thiết
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import DashboardPage from './pages/owner/DashboardPage';
-import InvestorManagementPage from './pages/owner/InvestorManagementPage';
-import InvestorDetailPage from './pages/owner/InvestorDetailPage';
-import ReportPage from './pages/owner/ReportPage';
-import NotificationPage from './pages/owner/NotificationPage';
-import PaymentPage from './pages/owner/PaymentPage';
-import SettingsPage from './pages/owner/SettingsPage';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import { Helmet } from "react-helmet";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import { routeArray } from "./constants/routes";
+import PublicRoute from './common/PublicRoute';
+import PrivateRoute from './common/PrivateRoute';
 
-class App extends React.Component {
-    render() {
-        return (
-            <Router>
-                <Routes>
-                    <Route path="/" element={<DashboardPage />} />
-                    <Route path="/investors" element={<InvestorManagementPage />} />
-                    <Route path="/investors/:id" element={<InvestorDetailPage />} />
-                    <Route path="/reports" element={<ReportPage />} />
-                    <Route path="/notifications" element={<NotificationPage />} />
-                    <Route path="/payments" element={<PaymentPage />} />
-                    <Route path="/settings" element={<SettingsPage />} />
-                </Routes>
-            </Router>
-        );
-    }
+function App() {
+  return (
+    <Router>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>TFU Resident - CMS</title>
+        <meta
+          name="description"
+          content="Chuyển đổi số mô hình quản lý-Thông tin dữ liệu chung cư-căn hộ,cư dân;Số hóa phiếu thu, thông báo phí, thanh toán online; Tương tác hai chiều; Đặt dịch vụ, tiện ích (đánh giá chất lượng); Truyền thông cư dân; Sổ tay cư dân, danh bạ,…;Khách thăm &amp; kiểm soát ra vào."
+        />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="robots" content="noindex" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <Routes>
+        <Route element={<PublicRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+        </Route>
+        <Route element={<PrivateRoute />}>
+          <Route
+            path="/*"
+            element={
+              <>
+                <Sidebar />
+                <div className="main-content">
+                  <Header />
+                  <Routes>
+                    {routeArray.map((item) => (
+                      <Route
+                        key={item.route}
+                        path={item.route}
+                        element={item.component}
+                      />
+                    ))}
+                  </Routes>
+                </div>
+              </>
+            }
+          />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
