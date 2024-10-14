@@ -1,0 +1,44 @@
+.forgotpass_container {
+    background-color: white;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    margin: 20% auto;
+}
+
+.forgotpass_form input {
+    width: 91.5%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #f5f7fa;
+    font-size: 16px;
+}
+
+.forgotpass_form input:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+.forgotpass_form .secondary__btn {
+    width: 97.5%;
+    padding: 12px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
