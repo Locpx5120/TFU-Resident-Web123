@@ -55,7 +55,7 @@ const Sidebar = () => {
         <h3>JSX Computer</h3>
         <p>Royal City</p>
       </div>
-      <nav>
+      <nav style={{marginBottom: 40}}>
         <StyledUl>
           {routeArray.map((item, i) => (
             <StyledLi

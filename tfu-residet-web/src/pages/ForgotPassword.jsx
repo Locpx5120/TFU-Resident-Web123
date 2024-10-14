@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Button } from 'react-bootstrap';
 import '../styles/ForgotPass.css';
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
     const [formData, setFormData] = useState({
        email: '',
        newPassword: ''
     });
-    const [message, setMessage] = useState('');
+   const [message, setMessage] = useState('');
+   const navigate = useNavigate();
  
     const handleChange = e => {
        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -29,6 +31,7 @@ const ForgotPassword = () => {
  
           if (response.ok) {
              setMessage(result.message);
+             navigate(`/otp/${result.data.userId}`);
           } else {
              setMessage(result.message);
           }

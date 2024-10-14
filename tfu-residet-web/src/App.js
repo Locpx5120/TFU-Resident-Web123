@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import { routeArray } from "./constants/routes";
 import PublicRoute from './common/PublicRoute';
 import PrivateRoute from './common/PrivateRoute';
+import OTPInput from './pages/OTPInput';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/otp/:id" element={<OTPInput />} />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route
