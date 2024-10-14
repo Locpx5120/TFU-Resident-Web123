@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/Sidebar.css";
-import { routeArray } from "../constants/routes";
+import { routeArray, routeOwner } from "../constants/routes";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import BadgeAvatars from "./Avatar";
@@ -43,7 +43,7 @@ const StyledLi = styled.li`
   }
 `;
 
-const Sidebar = () => {
+const Sidebar = ({ isOwner }) => {
   const location = useLocation();
 
   return (
@@ -57,7 +57,7 @@ const Sidebar = () => {
       </div>
       <nav style={{marginBottom: 40}}>
         <StyledUl>
-          {routeArray.map((item, i) => (
+          {(isOwner ? routeOwner : routeArray).map((item, i) => (
             <StyledLi
               key={i}
               className={location.pathname === item.route ? "active" : ""}

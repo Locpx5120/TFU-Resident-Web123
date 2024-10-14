@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import { Helmet } from "react-helmet";
@@ -7,12 +7,13 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
-import { routeArray } from "./constants/routes";
-import PublicRoute from './common/PublicRoute';
-import PrivateRoute from './common/PrivateRoute';
-import OTPInput from './pages/OTPInput';
+import { routeArray, routeOwner } from "./constants/routes";
+import PublicRoute from "./common/PublicRoute";
+import PrivateRoute from "./common/PrivateRoute";
+import OTPInput from "./pages/OTPInput";
 
 function App() {
+  const isOwner = true;
   return (
     <Router>
       <Helmet>
@@ -39,18 +40,32 @@ function App() {
             path="/*"
             element={
               <>
-                <Sidebar />
+                <Sidebar isOwner={isOwner} />
                 <div className="main-content">
-                  <Header />
-                  <Routes>
-                    {routeArray.map((item) => (
-                      <Route
-                        key={item.route}
-                        path={item.route}
-                        element={item.component}
-                      />
-                    ))}
-                  </Routes>
+                  {isOwner ? (
+                    <Routes>
+                      {routeOwner.map((item) => (
+                        <Route
+                          key={item.route}
+                          path={item.route}
+                          element={item.component}
+                        />
+                      ))}
+                    </Routes>
+                  ) : (
+                    <>
+                      <Header />
+                      <Routes>
+                        {routeArray.map((item) => (
+                          <Route
+                            key={item.route}
+                            path={item.route}
+                            element={item.component}
+                          />
+                        ))}
+                      </Routes>
+                    </>
+                  )}
                 </div>
               </>
             }

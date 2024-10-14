@@ -1,7 +1,14 @@
+// inventors
 import Dashboard from "../components/Dashboard";
 import Project from "../components/Project";
 import Building from "../components/Building";
 import History from "../components/History";
+// owners
+import DashboardOwner from "../components/owner/dashboard";
+import Agent from "../components/owner/agent";
+import ReportInvestor from "../components/owner/report";
+import HistoryOnwer from "../components/owner/history";
+// icons
 import WidgetsIcon from "@mui/icons-material/Widgets";
 import BusinessIcon from "@mui/icons-material/Business";
 import ApartmentIcon from "@mui/icons-material/Apartment";
@@ -58,6 +65,39 @@ export const routeArray = [
     route: "/lich-su",
     routeName: "Lịch sử",
     component: <History />,
+    icon: <HistoryIcon />,
+  },
+  {
+    route: "/cai-dat",
+    routeName: "Cài đặt",
+    component: <>Chua Co</>,
+    icon: <SettingsIcon />,
+  },
+];
+
+export const routeOwner = [
+  {
+    route: "/",
+    routeName: "Trang chính",
+    component: <DashboardOwner />,
+    icon: <WidgetsIcon />,
+  },
+  {
+    route: "/thanh-vien",
+    routeName: "Thành viên",
+    component: <Agent />,
+    icon: <PersonIcon />,
+  },
+  {
+    route: "/bao-cao",
+    routeName: "Báo cáo",
+    component: <ReportInvestor />,
+    icon: <DescriptionIcon />,
+  },
+  {
+    route: "/lich-su",
+    routeName: "Lịch sử",
+    component: <HistoryOnwer />,
     icon: <HistoryIcon />,
   },
   {
