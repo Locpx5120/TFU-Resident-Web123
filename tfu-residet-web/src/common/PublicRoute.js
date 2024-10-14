@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 const PublicRoute = () => {
-    const isAuthenticated = Cookies.get("accessToken") || true;
+    const isAuthenticated = Cookies.get("accessToken");
     return !!isAuthenticated ? <Navigate to="/" /> : <Outlet />;
 };
 
