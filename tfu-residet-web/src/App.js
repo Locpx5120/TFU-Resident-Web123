@@ -11,6 +11,7 @@ import { routeArray } from "./constants/routes";
 import PublicRoute from './common/PublicRoute';
 import PrivateRoute from './common/PrivateRoute';
 import OTPInput from './pages/OTPInput';
+import ChangePassword from './pages/ChangePassword';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/otp/:id" element={<OTPInput />} />
+          <Route path="/change-password" element={<ChangePassword />} />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route

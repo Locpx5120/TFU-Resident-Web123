@@ -37,8 +37,7 @@ const Login = () => {
     
                 const result = await res.json();
                 if (!res.ok) alert(result.message)
-                console.log(result.data)
-    
+            if (result.isNew) navigate('/change-password');
             if (result.data && result.data.token) {
                 Cookies.set('accessToken', result.data.token, { expires: 1 });
     
