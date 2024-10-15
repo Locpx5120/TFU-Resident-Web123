@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axiosInstance from '../config/axiosConfig';
+import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
 
 const ChangePassword = () => {
