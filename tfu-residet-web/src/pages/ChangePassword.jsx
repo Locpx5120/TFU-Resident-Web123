@@ -10,9 +10,9 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import axiosInstance from '../config/axiosConfig';
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 
 const ChangePassword = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -27,8 +27,17 @@ const ChangePassword = () => {
           password: newPassword,
           newPassword: confirmPassword,
       };
-      const res = await axiosInstance('/auth/changePassword', JSON.stringify(payload));
-      if (res.statusCode === 200) {
+      const token = Cookies.get('accessToken');
+      const res = await fetch('http://localhost:5045/api/auth/changePassword', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (result.code === 200) {
         Swal.fire({
             icon: 'success',
             title: 'Đổi mật khẩu thành công!',
@@ -37,6 +46,7 @@ const ChangePassword = () => {
             confirmButtonColor: '#3085d6',
             timer: 1500
         });
+        localStorage.removeItem('isNew');
         navigate('/');
       } else {
         Swal.fire({
@@ -60,7 +70,7 @@ const ChangePassword = () => {
           <TextField
             fullWidth
             margin="normal"
-            label="Mật khẩu mới"
+            label="Mật khẩu hiện tại"
             type={showNewPassword ? 'text' : 'password'}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
@@ -80,7 +90,7 @@ const ChangePassword = () => {
           <TextField
             fullWidth
             margin="normal"
-            label="Nhập lại mật khẩu mới"
+            label="Mật khẩu mới"
             type={showConfirmPassword ? 'text' : 'password'}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
