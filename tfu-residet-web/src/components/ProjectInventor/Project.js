@@ -26,7 +26,7 @@ const Project = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:5045/api/projects", {
+      const response = await fetch("http://localhost:5045/api/project/viewManager", {
         header,
       });
       const data = await response.json();

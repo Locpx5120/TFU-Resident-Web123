@@ -44,7 +44,7 @@ const AddModal = ({ open, onClose, onSubmit }) => {
   return (
     <StyledDialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <StyledDialogTitle>
-        Thêm mới du an
+        Thêm mới dự án
         <IconButton
           aria-label="close"
           onClick={onClose}
@@ -70,7 +70,7 @@ const AddModal = ({ open, onClose, onSubmit }) => {
           />
           <TextField
             margin="dense"
-            label="Dia chi"
+            label="Địa chỉ"
             type="text"
             fullWidth
             variant="outlined"
