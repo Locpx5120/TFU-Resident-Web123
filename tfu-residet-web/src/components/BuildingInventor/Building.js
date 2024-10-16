@@ -68,7 +68,7 @@ const Building = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch("http://localhost:5045/api/projects", header);
+      const response = await fetch("http://localhost:5045/api/project", header);
       const data = await response.json();
       setProjects(data.data);
     } catch (error) {
