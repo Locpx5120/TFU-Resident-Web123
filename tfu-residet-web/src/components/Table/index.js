@@ -19,9 +19,6 @@ import JSonBox from "../JSonBox";
 import colors from "../../assets/theme/base/colors";
 import typography from "../../assets/theme/base/typography";
 import borders from "../../assets/theme/base/borders";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 
 function TableCustom({
   columns,

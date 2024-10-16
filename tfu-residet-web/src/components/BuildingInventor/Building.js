@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Avatar,
   Box,
@@ -7,8 +8,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useMemo, useState } from "react";
-import TableCustom from "./Table";
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import Cookies from 'js-cookie';
+import Swal from 'sweetalert2';
+import TableCustom from '../Table';
+import AddBuildingModal from './CreateModal';
 
 const Building = () => {
   const [sortColumn, setSortColumn] = useState(null);
@@ -47,8 +51,61 @@ const Building = () => {
     setSortDirection(isAsc ? "desc" : "asc");
     setSortColumn(column);
   };
+
+  const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [projects, setProjects] = useState([]);
+
+  const header = {
+    headers: {
+      Authorization: `Bearer ${Cookies.get("accessToken")}`,
+      'content-type': 'application/json',
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch("http://localhost:5045/api/projects", header);
+      const data = await response.json();
+      setProjects(data.data);
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+    }
+  };
+
+  const handleCreateBuilding = async (newBuilding) => {
+    try {
+      const response = await fetch("http://localhost:5045/api/building", {
+        method: 'POST',
+        header,
+        body: JSON.stringify(newBuilding),
+      });
+
+      const result = await response.json();
+
+      if (result.code === 200) {
+        Swal.fire('Thành công', 'Đã thêm tòa nhà mới', 'success');
+        setIsOpenCreate(false);
+        // Refresh building list here
+      } else {
+        Swal.fire('Lỗi', result.message || 'Không thể tạo tòa nhà', 'error');
+      }
+    } catch (error) {
+      console.error('Error creating building:', error);
+      Swal.fire('Lỗi', 'Không thể kết nối đến server', 'error');
+    }
+  };
   return (
     <section className="content project">
+        <AddBuildingModal
+          open={isOpenCreate}
+          onClose={() => setIsOpenCreate(false)}
+          onSubmit={handleCreateBuilding}
+          projects={projects}
+        />
           <Typography sx={{
               display: 'flex',
               alignItems: 'center',
@@ -116,77 +173,6 @@ const columnData = [
     { name: "Thao tác", align: "left", esName: "thaoTac" },
   ];
   
-  const fakeRows = [
-    {
-      maToaNha: "TN001",
-      tenToaNha: "Tòa nhà Sunshine",
-      soCanHo: 150,
-      soCuDan: 450,
-      thaoTac: "Xem",
-    },
-    {
-      maToaNha: "TN002",
-      tenToaNha: "Chung cư Hoa Hồng",
-      soCanHo: 200,
-      soCuDan: 600,
-      thaoTac: "Xem",
-    },
-    {
-      maToaNha: "TN003",
-      tenToaNha: "Tòa tháp Đông Đô",
-      soCanHo: 300,
-      soCuDan: 900,
-      thaoTac: "Xem",
-    },
-    {
-      maToaNha: "TN004",
-      tenToaNha: "Khu căn hộ Biển Xanh",
-      soCanHo: 100,
-      soCuDan: 280,
-      thaoTac: "Xem",
-    },
-    {
-      maToaNha: "TN005",
-      tenToaNha: "Chung cư Thành phố",
-      soCanHo: 250,
-      soCuDan: 750,
-      thaoTac: "Xem",
-    },
-    {
-      maToaNha: "TN006",
-      tenToaNha: "Tòa nhà Sông Hồng",
-      soCanHo: 180,
-      soCuDan: 540,
-      thaoTac: "Xem",
-    },
-    {
-      maToaNha: "TN007",
-      tenToaNha: "Chung cư Đông Đô",
-      soCanHo: 220,
-      soCuDan: 660,
-      thaoTac: "Xem",
-    },
-    {
-      maToaNha: "TN008",
-      tenToaNha: "Tòa nhà Tây Hồ",
-      soCanHo: 160,
-      soCuDan: 480,
-      thaoTac: "Xem",
-    },
-    {
-      maToaNha: "TN009",
-      tenToaNha: "Chung cư Nam Từ Liêm",
-      soCanHo: 280,
-      soCuDan: 840,
-      thaoTac: "Xem",
-    },
-    {
-      maToaNha: "TN010",
-      tenToaNha: "Tòa nhà Bãi Dài",
-      soCanHo: 120,
-      soCuDan: 360,
-      thaoTac: "Xem",
-    },
-  ];
+  const fakeRows = [];
 
 export default Building;
