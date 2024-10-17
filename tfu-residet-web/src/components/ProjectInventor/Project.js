@@ -18,17 +18,19 @@ const Project = () => {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
-  const header = {
-    headers: {
+  const header ={
       Authorization: `Bearer ${Cookies.get("accessToken")}`,
-      "content-type": "application/json",
-    },
-  };
+      "content-type": "application/json", 
+    };
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch("http://localhost:5045/api/project/viewManager", {
-        header,
+        headers: header,
+        method: "POST",
+        body: JSON.stringify({ name: "project"}),
       });
+      console.log(response);
+      
       const data = await response.json();
       setData(data.data);
     };
@@ -76,7 +78,7 @@ const Project = () => {
     try {
       const res = await fetch(`http://localhost:5045/api/project/delete`, {
         method: "DELETE",
-        header,
+        headers: header,
         body: JSON.stringify({ id: projectId }),
       });
 
@@ -96,7 +98,7 @@ const Project = () => {
     try {
       const res = await fetch(`http://localhost:5045/api/project/update`, {
         method: "PUT",
-        header,
+        headers: header,
         body: JSON.stringify(projectData),
       });
 
@@ -136,7 +138,7 @@ const Project = () => {
     try {
       const res = await fetch("http://localhost:5045/api/project/create", {
         method: "POST",
-        header,
+        headers: header,
         body: JSON.stringify(projectData),
       });
 
@@ -273,11 +275,12 @@ const Project = () => {
 };
 
 const columnData = [
-  { name: "Mã dự án", align: "left", esName: "maDuAn", sortable: true },
+  // { name: "Mã dự án", align: "left", esName: "maDuAn", sortable: true },
   { name: "Tên dự án", align: "left", esName: "tenDuAn", sortable: true },
-  // { name: "Tòa nhà", align: "left", esName: "toaNha" },
-  // { name: "Căn hộ", align: "left", esName: "canHo" },
-  { name: "Dia chi", align: "left", esName: "diaChi", sortable: true },
+  { name: "Địa chỉ", align: "left", esName: "diaChi", sortable: true },
+  { name: "Tòa nhà", align: "left", esName: "toaNha" },
+  { name: "Căn hộ", align: "left", esName: "canHo" },
+  { name: "Cư dân", align: "left", esName: "cuDan" },
   { name: "Hành động", align: "left", esName: "hanhDong" },
 ];
 
