@@ -1,7 +1,7 @@
 // inventors
 import Dashboard from "../components/Dashboard";
-import Project from "../components/Project";
-import Building from "../components/Building";
+import Project from "../components/ProjectInventor/Project";
+import Building from "../components/BuildingInventor/Building";
 import History from "../components/History";
 // owners
 import DashboardOwner from "../components/owner/dashboard";

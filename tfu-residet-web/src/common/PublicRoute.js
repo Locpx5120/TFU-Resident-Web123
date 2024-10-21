@@ -4,7 +4,8 @@ import Cookies from 'js-cookie';
 
 const PublicRoute = () => {
     const isAuthenticated = Cookies.get("accessToken");
-    return !!isAuthenticated ? <Navigate to="/" /> : <Outlet />;
+    const isNew = localStorage.getItem('isNew') || false;
+    return !isNew && !!isAuthenticated ? <Navigate to="/" /> : <Outlet />;
 };
 
 export default PublicRoute;

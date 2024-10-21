@@ -7,10 +7,11 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
+import PublicRoute from './common/PublicRoute';
+import PrivateRoute from './common/PrivateRoute';
+import OTPInput from './pages/OTPInput';
+import ChangePassword from './pages/ChangePassword';
 import { routeArray, routeOwner, routeDirector } from "./constants/routes";
-import PublicRoute from "./common/PublicRoute";
-import PrivateRoute from "./common/PrivateRoute";
-import OTPInput from "./pages/OTPInput";
 
 function App() {
   // Giả sử bạn có một hàm hoặc hook để lấy vai trò của người dùng
@@ -74,6 +75,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/otp/:id" element={<OTPInput />} />
+          <Route path="/change-password" element={<ChangePassword />} />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route
