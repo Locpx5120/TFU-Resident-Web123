@@ -34,6 +34,7 @@ function TableCustom({
   sortColumn,
   sortDirection,
   onSort,
+  onRowClick
 }) {
   const { light } = colors;
   const { size, fontWeightBold } = typography;
@@ -131,8 +132,10 @@ function TableCustom({
           <TableCell
             key={esName}
             align={align}
+            onClick={() => onRowClick && onRowClick(row.id)}
             style={{
               borderBottom: `${borderWidth[1]} solid ${light.main}`,
+             cursor: onRowClick ? 'pointer' : 'default',
             }}
           >
             <Typography
@@ -142,6 +145,7 @@ function TableCustom({
                 display: "inline-block",
                 width: "max-content",
                 color: "#000",
+                textTransform: "lowercase",
                 "& .css-5sc49i-MuiTypography-root": { color: "#000" },
               }}
             >

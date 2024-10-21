@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import { Helmet } from "react-helmet";
@@ -7,13 +7,54 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
-import { routeArray } from "./constants/routes";
 import PublicRoute from './common/PublicRoute';
 import PrivateRoute from './common/PrivateRoute';
 import OTPInput from './pages/OTPInput';
 import ChangePassword from './pages/ChangePassword';
+import { routeArray, routeOwner, routeDirector } from "./constants/routes";
 
 function App() {
+  // Giả sử bạn có một hàm hoặc hook để lấy vai trò của người dùng
+  // const userRole = getUserRole();
+
+  const getRoutesByRole = (role) => {
+    switch (role) {
+      case 'Resident':
+        return routeDirector;
+      case 'Software owner':
+        return routeOwner;
+      case 'Building Staff':
+        return [];
+      default:
+        return routeArray;
+    }
+  };
+
+  const routes = getRoutesByRole('Resident');
+
+  const renderRoutes = (routeList, parentPath = '') => {
+    return routeList.map((item) => {
+      const fullPath = `${parentPath}${item.route}`.replace(/\/+/g, '/');
+      
+      if (item.routeChild) {
+        return (
+          <React.Fragment key={fullPath}>
+            <Route path={fullPath} element={item.component} />
+            {renderRoutes(item.routeChild, fullPath)}
+          </React.Fragment>
+        );
+      }
+      
+      return (
+        <Route
+          key={fullPath}
+          path={fullPath}
+          element={item.component}
+        />
+      );
+    });
+  };
+
   return (
     <Router>
       <Helmet>
@@ -41,17 +82,11 @@ function App() {
             path="/*"
             element={
               <>
-                <Sidebar />
+                <Sidebar routes={routes.filter(route => !route.hidden)} />
                 <div className="main-content">
                   <Header />
                   <Routes>
-                    {routeArray.map((item) => (
-                      <Route
-                        key={item.route}
-                        path={item.route}
-                        element={item.component}
-                      />
-                    ))}
+                    {renderRoutes(routes)}
                   </Routes>
                 </div>
               </>
