@@ -82,9 +82,6 @@ import {
               Tìm kiếm
             </Button>
           </Box>
-          <Button variant="contained" sx={{ background: "#2ca8a2" }}>
-            Thêm mới
-          </Button>
         </Box>
         <Card sx={{ maxHeight: "800px", marginTop: "30px" }}>
           <TableCustom
