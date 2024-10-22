@@ -30,7 +30,7 @@ function App() {
     }
   };
 
-  const routes = getRoutesByRole('Resident');
+  const routes = getRoutesByRole('Software owner');
 
   const renderRoutes = (routeList, parentPath = '') => {
     return routeList.map((item) => {

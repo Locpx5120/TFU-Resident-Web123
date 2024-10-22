@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Dialog,
@@ -11,20 +11,36 @@ import {
   Select,
   MenuItem,
   Grid,
+  Typography,
 } from '@mui/material';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker, ConfigProvider } from 'antd';
+import viVN from 'antd/lib/locale/vi_VN';
+import moment from 'moment';
+import { StyleProvider } from '@ant-design/cssinjs';
+import './index.css';
+
+const initialFormData = {
+  email: '',
+  phone: '',
+  fullName: '',
+  genders: '',
+  dateOfBirth: null,
+  numberCccd: '',
+};
 
 const AgentModal = ({ open, handleClose, member, handleSave }) => {
-  const [formData, setFormData] = useState(member || {
-    email: '',
-    phone: '',
-    fullName: '',
-    dateOfBirth: null,
-    gender: '',
-    idNumber: '',
-  });
+  const [formData, setFormData] = useState(initialFormData);
+
+  useEffect(() => {
+    if (member) {
+      setFormData({
+        ...member,
+        dateOfBirth: member.dateOfBirth ? moment(member.dateOfBirth) : null
+      });
+    } else {
+      setFormData(initialFormData);
+    }
+  }, [member]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -34,7 +50,7 @@ const AgentModal = ({ open, handleClose, member, handleSave }) => {
     }));
   };
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (date, dateString) => {
     setFormData(prevData => ({
       ...prevData,
       dateOfBirth: date,
@@ -42,15 +58,23 @@ const AgentModal = ({ open, handleClose, member, handleSave }) => {
   };
 
   const handleSubmit = () => {
-    handleSave(formData);
+    const submittedData = {
+      ...formData,
+      dateOfBirth: formData.dateOfBirth ? formData.dateOfBirth.format('YYYY-MM-DD') : null
+    };
+    handleSave(submittedData);
     handleClose();
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-      <DialogTitle>{member ? 'Sửa thành viên' : 'Thêm thành viên mới'}</DialogTitle>
-      <DialogContent>
-        <Grid container spacing={2} sx={{ mt: 1 }}>
+    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth PaperProps={{ style: { borderRadius: 15 } }}>
+      <DialogTitle>
+        <Typography variant="h5" component="div" style={{ fontWeight: 'bold', color: '#1976d2' }}>
+          {member ? 'Sửa thành viên' : 'Thêm thành viên mới'}
+        </Typography>
+      </DialogTitle>
+      <DialogContent dividers>
+        <Grid container spacing={3} sx={{ mt: 1 }}>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -58,6 +82,7 @@ const AgentModal = ({ open, handleClose, member, handleSave }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
+              variant="outlined"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -67,6 +92,7 @@ const AgentModal = ({ open, handleClose, member, handleSave }) => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
+              variant="outlined"
             />
           </Grid>
           <Grid item xs={12}>
@@ -76,30 +102,34 @@ const AgentModal = ({ open, handleClose, member, handleSave }) => {
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
+              variant="outlined"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                label="Ngày sinh"
-                value={formData.dateOfBirth}
-                onChange={handleDateChange}
-                renderInput={(params) => <TextField {...params} fullWidth />}
-              />
-            </LocalizationProvider>
+            <StyleProvider hashPriority="high">
+              <ConfigProvider locale={viVN}>
+                <DatePicker
+                  style={{ width: '100%' }}
+                  placeholder="Chọn ngày sinh"
+                  format="DD/MM/YYYY"
+                  value={formData.dateOfBirth}
+                  onChange={handleDateChange}
+                />
+              </ConfigProvider>
+            </StyleProvider>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
+            <FormControl fullWidth variant="outlined">
               <InputLabel>Giới tính</InputLabel>
               <Select
-                name="gender"
-                value={formData.gender}
+                name="genders"
+                value={formData.genders}
                 onChange={handleChange}
                 label="Giới tính"
               >
-                <MenuItem value="male">Nam</MenuItem>
-                <MenuItem value="female">Nữ</MenuItem>
-                <MenuItem value="other">Khác</MenuItem>
+                <MenuItem value="Male">Nam</MenuItem>
+                <MenuItem value="Female">Nữ</MenuItem>
+                <MenuItem value="Other">Khác</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -107,16 +137,19 @@ const AgentModal = ({ open, handleClose, member, handleSave }) => {
             <TextField
               fullWidth
               label="Số CCCD"
-              name="idNumber"
-              value={formData.idNumber}
+              name="numberCccd"
+              value={formData.numberCccd}
               onChange={handleChange}
+              variant="outlined"
             />
           </Grid>
         </Grid>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Hủy</Button>
-        <Button onClick={handleSubmit} variant="contained" color="primary">
+      <DialogActions style={{ padding: '16px 24px' }}>
+        <Button onClick={handleClose} variant="outlined" color="primary" style={{ minWidth: '100px' }}>
+          Hủy
+        </Button>
+        <Button onClick={handleSubmit} variant="contained" color="primary" style={{ minWidth: '100px' }}>
           {member ? 'Cập nhật' : 'Thêm mới'}
         </Button>
       </DialogActions>
